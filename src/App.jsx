@@ -6,6 +6,7 @@ export default function App() {
   const [defaultCount, setDefaultCount] = useState(0);
   const [limit, setLimit] = useState(0);
   const [hasLimit, setHasLimit] = useState(false);
+  const [theme, setTheme] = useState("bg-white");
 
   const minusOne = () => {
     setCount((prev) => prev - 1);
@@ -48,9 +49,17 @@ export default function App() {
     setHasLimit(e.target.checked);
   };
 
+  const handleTheme = (bgColor) => {
+    setTheme(bgColor);
+  };
+
   return (
-    <div className="w-dvw h-dvh flex justify-center items-center">
-      <div className="border border-slate-300 rounded-md p-6 flex items-center gap-4">
+    <div className={`w-dvw h-dvh flex justify-center items-center ${theme}`}>
+      <div
+        className={`border border-slate-300 rounded-md p-6 flex items-center gap-4 ${
+          theme !== "bg-white" && "text-white"
+        }`}
+      >
         <Button onClick={minusOne}>-</Button>
         <span>{count}</span>
         <Button onClick={plusOne}>+</Button>
@@ -97,6 +106,44 @@ export default function App() {
                 />
               </div>
             </div>
+            <div className="p-6 border border-slate-300 rounded-md font-semibold flex flex-col gap-2">
+              <div className="flex gap-4">
+                <Button
+                  onClick={() => handleTheme("bg-white")}
+                  className={"w-10 h-10 bg-white"}
+                ></Button>
+                <Button
+                  onClick={() => handleTheme("bg-slate-500")}
+                  className={"w-10 h-10 bg-slate-500 border-slate-500"}
+                ></Button>
+                <Button
+                  onClick={() => handleTheme("bg-cyan-500")}
+                  className={"w-10 h-10 bg-cyan-500 border-cyan-500"}
+                ></Button>
+                <Button
+                  onClick={() => handleTheme("bg-fuchsia-500")}
+                  className={"w-10 h-10 bg-fuchsia-500 border-fuchsia-500"}
+                ></Button>
+              </div>
+              <div className="flex gap-4">
+                <Button
+                  onClick={() => handleTheme("bg-rose-500")}
+                  className={"w-10 h-10 bg-rose-500 border-rose-500"}
+                ></Button>
+                <Button
+                  onClick={() => handleTheme("bg-yellow-500")}
+                  className={"w-10 h-10 bg-yellow-500 border-yellow-300"}
+                ></Button>
+                <Button
+                  onClick={() => handleTheme("bg-green-500")}
+                  className={"w-10 h-10 bg-green-500 border-green-500"}
+                ></Button>
+                <Button
+                  onClick={() => handleTheme("bg-pink-400")}
+                  className={"w-10 h-10 bg-pink-400 border-pink-400"}
+                ></Button>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -104,11 +151,11 @@ export default function App() {
   );
 }
 
-function Button({ children, onClick }) {
+function Button({ children, onClick, className }) {
   return (
     <button
       onClick={onClick}
-      className="border border-slate-300 rounded-md py-2 px-4"
+      className={`border border-slate-300 rounded-md py-2 px-4 ${className}`}
     >
       {children}
     </button>
