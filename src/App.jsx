@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function App() {
   const [count, setCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [defaultCount, setDefaultCount] = useState(0);
 
   const minusOne = () => {
     setCount((prev) => prev - 1);
@@ -13,7 +14,7 @@ export default function App() {
   };
 
   const reset = () => {
-    setCount(0);
+    setCount(defaultCount);
   };
 
   const openModal = () => {
@@ -26,6 +27,11 @@ export default function App() {
 
   const preventEventBubbling = (e) => {
     e.stopPropagation();
+  };
+
+  const handleDefaultCount = (e) => {
+    setDefaultCount(+e.target.value);
+    setCount(+e.target.value);
   };
 
   return (
@@ -47,9 +53,18 @@ export default function App() {
         >
           <div
             onClick={preventEventBubbling}
-            className="bg-white rounded-md p-6"
+            className="bg-white rounded-md p-6 flex flex-col gap-6"
           >
             <h1 className="text-xl font-semibold">Settings</h1>
+            <div className="p-6 border border-slate-300 rounded-md font-semibold flex items-center gap-4">
+              Default count:
+              <input
+                type="number"
+                className="border rounded-md p-2 w-20"
+                value={defaultCount}
+                onChange={handleDefaultCount}
+              />
+            </div>
           </div>
         </div>
       )}
