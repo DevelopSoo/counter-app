@@ -5,13 +5,16 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [defaultCount, setDefaultCount] = useState(0);
   const [limit, setLimit] = useState(0);
+  const [hasLimit, setHasLimit] = useState(false);
 
   const minusOne = () => {
     setCount((prev) => prev - 1);
   };
 
   const plusOne = () => {
-    if (count < limit) {
+    if (hasLimit && count >= limit) {
+      return;
+    } else {
       setCount((prev) => prev + 1);
     }
   };
@@ -39,6 +42,10 @@ export default function App() {
 
   const handleLimitCount = (e) => {
     setLimit(+e.target.value);
+  };
+
+  const toggleLimit = (e) => {
+    setHasLimit(e.target.checked);
   };
 
   return (
@@ -73,11 +80,18 @@ export default function App() {
               />
             </div>
             <div className="p-6 border border-slate-300 rounded-md font-semibold">
+              <div className="flex items-center gap-4 mb-2">
+                Limit off / on:{" "}
+                <ToggleButton onClick={toggleLimit} isChecked={hasLimit} />
+              </div>
               <div className="flex items-center gap-4">
                 Limit:
                 <input
+                  disabled={!hasLimit}
                   type="number"
-                  className="border rounded-md p-2 w-20"
+                  className={`border rounded-md p-2 w-20 ${
+                    !hasLimit && "text-gray-400"
+                  }`}
                   value={limit}
                   onChange={handleLimitCount}
                 />
@@ -119,5 +133,20 @@ function SettingIcon() {
       <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
       <circle cx="12" cy="12" r="3"></circle>
     </svg>
+  );
+}
+
+function ToggleButton({ onClick, isChecked }) {
+  return (
+    <label className="inline-flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        value=""
+        className="sr-only peer"
+        onChange={onClick}
+        checked={isChecked}
+      ></input>
+      <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-blue-500"></div>
+    </label>
   );
 }
