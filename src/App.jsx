@@ -4,13 +4,16 @@ export default function App() {
   const [count, setCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [defaultCount, setDefaultCount] = useState(0);
+  const [limit, setLimit] = useState(0);
 
   const minusOne = () => {
     setCount((prev) => prev - 1);
   };
 
   const plusOne = () => {
-    setCount((prev) => prev + 1);
+    if (count < limit) {
+      setCount((prev) => prev + 1);
+    }
   };
 
   const reset = () => {
@@ -32,6 +35,10 @@ export default function App() {
   const handleDefaultCount = (e) => {
     setDefaultCount(+e.target.value);
     setCount(+e.target.value);
+  };
+
+  const handleLimitCount = (e) => {
+    setLimit(+e.target.value);
   };
 
   return (
@@ -64,6 +71,17 @@ export default function App() {
                 value={defaultCount}
                 onChange={handleDefaultCount}
               />
+            </div>
+            <div className="p-6 border border-slate-300 rounded-md font-semibold">
+              <div className="flex items-center gap-4">
+                Limit:
+                <input
+                  type="number"
+                  className="border rounded-md p-2 w-20"
+                  value={limit}
+                  onChange={handleLimitCount}
+                />
+              </div>
             </div>
           </div>
         </div>
